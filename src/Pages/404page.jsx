@@ -1,5 +1,3 @@
-import React from "react";
-
 const NotFoundPage = () => {
   return (
     <div className="flex items-center not-found justify-center h-screen ">

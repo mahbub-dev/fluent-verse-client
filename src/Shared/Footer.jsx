@@ -1,4 +1,3 @@
-import React from "react";
 import { FaPhone, FaEnvelope } from "react-icons/fa";
 import { RiFacebookFill, RiTwitterFill, RiInstagramFill, RiLinkedinFill } from "react-icons/ri";
 // import Logo from "./Logo";

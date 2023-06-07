@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+  const user = false
 
   return (
     <nav className="bg-black bg-opacity-20 backdrop-filter backdrop-blur-lg">
@@ -19,30 +20,56 @@ const Navbar = () => {
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <a
-                href="#"
+              <Link
+                to="#"
                 className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Home
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="#"
                 className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
               >
-                About
-              </a>
-              <a
-                href="#"
+                Instructors
+              </Link>
+              <Link
+                to="#"
                 className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
               >
-                Contact
-              </a>
+                Classes
+              </Link>
+
+              {/* dashboard  */}
+              {user && <Link
+                to="dashboard"
+                className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Dashboard
+              </Link>}
+
+              {/* profile or login button  */}
+              {
+                user ? <Link
+                  to="/"
+                  className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  User profile
+                </Link> :
+                  <Link
+                    to={'/login'}
+                    className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Login
+                  </Link>
+              }
+
+
             </div>
           </div>
           <div className="hidden md:block">
             <button
               className="text-white bg-[--btn] hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
-             
+
             >
               Sign In
             </button>
@@ -65,24 +92,47 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="#"
+            <Link
+              to="#"
               className="text-white hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium"
             >
               Home
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
             >
-              About
-            </a>
-            <a
-              href="#"
+              Instructors
+            </Link>
+            <Link
+              to="#"
               className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
             >
-              Contact
-            </a>
+              Classes
+            </Link>
+            {/* dashboard  */}
+            {user && <Link
+              to="dashboard"
+              className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Dashboard
+            </Link>}
+
+            {/* profile or login button  */}
+            {
+              user ? <Link
+                to="/"
+                className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
+              >
+                User profile
+              </Link> :
+                <Link
+                  to={'/login'}
+                  className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Login
+                </Link>
+            }
           </div>
           <div className="pt-4 pb-3 border-t border-white">
             <div className="flex items-center px-5">
