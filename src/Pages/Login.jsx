@@ -1,80 +1,78 @@
-import  { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    // Handle form submission
+    console.log(data);
+  };
+
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Implement your login logic here
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-white rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="mb-4">
-          <label htmlFor="email" className="block mb-2 font-medium">
-            Email:
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block mb-2 font-medium">
-            Password:
-          </label>
-          <div className="relative">
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="max-w-md w-full bg-white p-8 rounded shadow-lg bg-gradient-to-r from-gray-500 to-gray-700">
+        <h2 className="text-2xl text-white text-center font-bold mb-4">Login</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-white mb-1 font-medium">
+              Email:
+            </label>
             <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              value={password}
-              onChange={handlePasswordChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded"
+              type="email"
+              id="email"
+              {...register("email", { required: true })}
+              className="w-full p-2   outline-none bg-gray-300 rounded"
             />
-            <span
-              className="absolute top-2 right-2 cursor-pointer"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+            {errors.email && (
+              <span className="text-red-500">This field is required</span>
+            )}
           </div>
-        </div>
-        <button
-          type="submit"
-          className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Login
-        </button>
-      </form>
-      <p className="mt-4">
-        Don't have an account? <Link to="/registration" className="text-blue-500">Register here</Link>
-      </p>
-      <div className="mt-4">
-        <h3 className="text-lg font-semibold">Or log in with:</h3>
-        {/* Add social login buttons/icons here */}
+          <div>
+            <label htmlFor="password" className="block mb-1 text-white font-medium">
+              Password:
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                {...register("password", { required: true })}
+                className="w-full p-2   outline-none bg-gray-300 rounded"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute top-1/2 right-2 transform -translate-y-1/2"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+            {errors.password && (
+              <span className="text-gray-900">This field is required</span>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full py-2 px-4 bg-gray-800 text-white rounded hover:bg-gray-900"
+          >
+            Login
+          </button>
+        </form>
+        <p className="mt-4 text-white">
+          Don't have an account? <Link className="text-blue-300" to="/register">Register</Link>
+        </p>
       </div>
     </div>
   );
