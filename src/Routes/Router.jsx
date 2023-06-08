@@ -7,6 +7,11 @@ import Login from "../Pages/Login";
 import Registration from "../Pages/Resgistration";
 import AuthProvider from "../Hooks/useAuth";
 import Home from "../Pages/Home";
+import InstructorPage from "../Pages/Instructors";
+import ClassesPage from "../Pages/Classes";
+import StudentDashboard from "../Pages/Dashboard";
+import MySelectedClasses from "../DashboardPages/Student/MySelectedClasses";
+import MyEnrolledClasses from "../DashboardPages/Student/MyEnrolledClasses";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -14,8 +19,8 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
     children: [
       {
-        path:'/',
-        element:<Home/>
+        path: '/',
+        element: <Home />
       },
       {
         path: 'login',
@@ -24,6 +29,35 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Registration />
+      },
+      {
+        path: 'instructors',
+        element: <InstructorPage />
+      },
+      {
+        path: 'classes',
+        element: <ClassesPage />
+      },
+      {
+        path: 'dashboard',
+        element: <StudentDashboard />,
+        children: [
+          {
+            path: '/dashboard',
+            element: <>
+              <MySelectedClasses />
+              <MyEnrolledClasses />
+            </>
+          },
+          {
+            path: '/dashboard/myselectedclasses',
+            element: <MySelectedClasses />
+          },
+          {
+            path: '/dashboard/myenrolledclasses',
+            element: <MyEnrolledClasses />
+          }
+        ]
       }
     ]
   },
