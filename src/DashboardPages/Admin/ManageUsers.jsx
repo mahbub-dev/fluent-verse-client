@@ -1,34 +1,35 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { RiUserAddLine, RiUserFollowLine } from "react-icons/ri";
 import { useAuth } from "../Hooks/useAuth";
-import { updateProfileRole } from "../../api/userAPI";
+// import { updateProfileRole } from "../../api/userAPI";
 
 const ManageUsers = () => {
   const { users } = useAuth();
   const [disabledButtons, setDisabledButtons] = useState([]);
 
   const makeInstructor = (user) => {
-    // Update user role as an instructor
-    updateProfileRole(user.uid, "instructor")
-      .then(() => {
-        // Disable the Make Instructor button
-        setDisabledButtons([...disabledButtons, user.uid]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+ 
+    // updateProfileRole(user.uid, "instructor")
+    //   .then(() => {
+
+    //     setDisabledButtons([...disabledButtons, user.uid]);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
+
+
   const makeAdmin = (user) => {
-    // Update user role as an admin
-    updateProfileRole(user.uid, "admin")
-      .then(() => {
-        // Disable the Make Admin button
-        setDisabledButtons([...disabledButtons, user.uid]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    // updateProfileRole(user.uid, "admin")
+    //   .then(() => {
+    //     setDisabledButtons([...disabledButtons, user.uid]);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   return (
