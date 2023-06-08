@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from "../Hooks/useAuth";
+import Loading from "./Loading";
 
 const Navbar = () => {
+  const path = useLocation().pathname.split('/')[1]
+  const { user, isUserLoggedIn, logOut } = useAuth()
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-  const user = false
-
   return (
     <nav className="bg-black bg-opacity-20 backdrop-filter backdrop-blur-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,58 +24,59 @@ const Navbar = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               <Link
-                to="#"
-                className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
+                to="/"
+                className={`${path === '' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium`}
               >
                 Home
               </Link>
               <Link
-                to="#"
-                className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
+                to="/instructors"
+                className={`${path === 'instructors' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium`}
               >
                 Instructors
               </Link>
               <Link
-                to="#"
-                className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
+                to="/classes"
+                className={`${path === 'classes' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium`}
               >
                 Classes
               </Link>
 
               {/* dashboard  */}
-              {user && <Link
-                to="dashboard"
-                className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
+              {isUserLoggedIn && <><Link
+                to="/dashboard"
+                className={`${path === 'dashboard' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium`}
               >
                 Dashboard
-              </Link>}
-
-              {/* profile or login button  */}
-              {
-                user ? <Link
-                  to="/"
-                  className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
+              </Link>
+                <button onClick={() => { logOut(); navigate('/login') }}
+                  className={`text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium`}
                 >
-                  User profile
-                </Link> :
-                  <Link
-                    to={'/login'}
-                    className="text-white hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Login
-                  </Link>
+                  Logout
+                </button>
+              </>
               }
+
 
 
             </div>
           </div>
           <div className="hidden md:block">
-            <button
-              className="text-white bg-[--btn] hover:text-gray-500 px-3 py-2 rounded-md text-sm font-medium"
-
-            >
-              Sign In
-            </button>
+            {/* profile or login button  */}
+            {
+              isUserLoggedIn ? <Link
+                to="/"
+                className={`'text-white' block px-3 py-2 rounded-md text-base font-medium`}
+              >
+                {!user ? <Loading /> : <img src={user?.photoURL} alt='user' className="w-[40px] h-[40px] rounded-full" title={user?.displayName} />}
+              </Link> :
+                <Link
+                  to={'/login'}
+                  className={`${path === 'login' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}
+                >
+                  Login
+                </Link>
+            }
           </div>
           <div className="-mr-2 flex md:hidden">
             <button
@@ -89,58 +93,61 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
-              to="#"
-              className="text-white hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium"
+              to="/"
+              className={`${path === '' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}
             >
               Home
             </Link>
             <Link
-              to="#"
-              className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
+              to="/instructors"
+              className={`${path === 'instructors' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}
             >
               Instructors
             </Link>
             <Link
-              to="#"
-              className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
+              to="classes"
+              className={`${path === 'classes' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}
             >
               Classes
             </Link>
             {/* dashboard  */}
-            {user && <Link
-              to="dashboard"
-              className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
+            {isUserLoggedIn && <> <Link
+              to="/dashboard"
+              className={`${path === 'dashboard' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}
             >
               Dashboard
-            </Link>}
-
-            {/* profile or login button  */}
-            {
-              user ? <Link
-                to="/"
-                className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
-              >
-                User profile
-              </Link> :
-                <Link
-                  to={'/login'}
-                  className="text-white hover:text-yellow-500 block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Login
-                </Link>
+            </Link>
+              <button onClick={() => { logOut; navigate('/login') }} className={` text-white hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}>
+                Logout
+              </button>
+            </>
             }
+
+
+
           </div>
           <div className="pt-4 pb-3 border-t border-white">
             <div className="flex items-center px-5">
-              <button
-                className="text-white bg-[--btn] hover:text-yellow-500 px-3 py-2 rounded-md text-base font-medium"
-              >
-                Sign In
-              </button>
+              {/* profile or login button  */}
+              {
+                isUserLoggedIn ? <Link
+                  to="/"
+                  className={`'text-white' block px-3 py-2 rounded-md text-base font-medium`}
+                >
+                  {!user ? <Loading /> : <img src={user?.photoURL} alt='user' className="w-[40px] h-[40px] rounded-full" title={user?.displayName} />}
+                </Link> :
+                  <Link
+                    to={'/login'}
+                    className={`${path === 'login' ? 'text-gray-500' : 'text-white'} hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}
+                  >
+                    Login
+                  </Link>
+              }
             </div>
           </div>
         </div>

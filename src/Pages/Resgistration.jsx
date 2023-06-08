@@ -1,26 +1,65 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import Swal from 'sweetalert2'
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, } from "firebase/auth";
+import app from "../../firebase.config";
+import { useAuth } from "../Hooks/useAuth";
+
 
 const Registration = () => {
+    const location = useLocation()
+    const { user, userLogin, handleGoogleLogin } = useAuth()
     const {
         register,
         handleSubmit,
         formState: { errors },
+        watch
     } = useForm();
-
+    const auth = getAuth(app);
+    const password = useRef({});
+    password.current = watch("password", "");
+    const validateForm = (value) => {
+        const specialCharacter = /[!@#$%^&*(),.?":{}|<>]/
+        const capitalLetters = /[A-Z]/
+        if (!specialCharacter.test(value)) {
+            return "The password don't have a special character"
+        }
+        if (!capitalLetters.test(value)) {
+            return "The Password don't have a capital letter"
+        }
+        if (value.length < 6) {
+            return "The password is less than 6 characters"
+        }
+    }
     const onSubmit = (data) => {
-        // Handle form submission
-        console.log(data);
+        createUserWithEmailAndPassword(auth, data.email, data.password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                updateProfile(user, {
+                    displayName: data.name, photoURL: data.photoURL
+                }).then(() => { }).catch((error) => { console.log(error) });
+                userLogin(user, location)
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Firebase Error',
+                    text: errorMessage,
+                })
+            });
     };
 
-    const [showPassword, setShowPassword] = React.useState(false);
 
+    const [showPassword, setShowPassword] = React.useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
-
+    if (user?.displayName) {
+        return <Navigate to='/' />
+    }
     return (
         <div className="flex flex-col items-center justify-center min-h-screen ">
             <div className="max-w-[800px] w-full  bg-white p-8 rounded shadow-lg bg-gradient-to-r from-gray-500 to-gray-700" >
@@ -63,7 +102,7 @@ const Registration = () => {
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     id="password"
-                                    {...register("password", { required: true })}
+                                    {...register("password", { required: true, validate: validateForm })}
                                     className="w-full p-2 border border-gray-300 outline-none bg-gray-300 rounded"
                                 />
                                 <button
@@ -75,7 +114,7 @@ const Registration = () => {
                                 </button>
                             </div>
                             {errors.password && (
-                                <span className="text-gray-900">This field is required</span>
+                                <span className="text-gray-900">{errors.password?.message}</span>
                             )}
                         </div>
                         <div>
@@ -86,7 +125,13 @@ const Registration = () => {
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     id="confirmPassword"
-                                    {...register("confirmPassword", { required: true })}
+                                    {...register("confirmPassword", {
+                                        required: true, validate: (value) => {
+                                            if (value !== password.current) {
+                                                return "The comfirm password is wrong"
+                                            }
+                                        }
+                                    })}
                                     className="w-full p-2 border border-gray-300 outline-none bg-gray-300 rounded"
                                 />
                                 <button
@@ -98,7 +143,7 @@ const Registration = () => {
                                 </button>
                             </div>
                             {errors.confirmPassword && (
-                                <span className="text-gray-900">This field is required</span>
+                                <span className="text-gray-900">{errors.confirmPassword?.message}</span>
                             )}
                         </div>
                         <div>
@@ -171,6 +216,13 @@ const Registration = () => {
                 <p className="mt-4 text-white">
                     Already have an account? <Link to="/login" className="text-blue-400">Login</Link>
                 </p>
+                <button
+                    className="flex items-center mt-5 mx-auto justify-center px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-red-700"
+                    onClick={handleGoogleLogin}
+                >
+                    <FaGoogle className="mr-2" />
+                    Continue with Google
+                </button>
             </div>
         </div>
     );

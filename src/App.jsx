@@ -1,6 +1,7 @@
 
 import { Outlet } from 'react-router-dom'
 import './App.css'
+import 'sweetalert2/src/sweetalert2.scss'
 import Footer from './Shared/Footer'
 import Navbar from './Shared/Navbar'
 function App() {
@@ -8,7 +9,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className='min-h-[650px]'>
+      <div className='md:min-h-[650px]'>
         <Outlet />
       </div>
       <Footer />

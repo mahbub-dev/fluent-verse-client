@@ -5,20 +5,20 @@ import App from "../App";
 import NotFoundPage from "../Pages/404page";
 import Login from "../Pages/Login";
 import Registration from "../Pages/Resgistration";
-
+import AuthProvider from "../Hooks/useAuth";
 const router = createBrowserRouter([
   {
     path: "/",
-    element:<App/>,
-    errorElement:<NotFoundPage/>,
-    children:[
+    element: <AuthProvider><App /></AuthProvider>,
+    errorElement: <NotFoundPage />,
+    children: [
       {
-        path:'login',
-        element:<Login/>
+        path: 'login',
+        element: <Login />
       },
       {
-        path:'register',
-        element:<Registration/>
+        path: 'register',
+        element: <Registration />
       }
     ]
   },
