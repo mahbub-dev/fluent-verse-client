@@ -37,10 +37,10 @@ const ClassesSection = () => {
   return (
     <section className="py-10">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-white mb-8">Top Classes</h2>
+        <h2 className="text-3xl font-bold text-center text-white mb-8">Popular Classes</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {topClasses.map((classItem) => (
-            <div className="bg-opacity-40 bg-gray-800 shadow-lg rounded-lg p-6 flex flex-col justify-between" key={classItem.title}>
+            <div className="bg-opacity-40 bg-green-800 shadow-lg rounded-lg p-6 flex flex-col justify-between" key={classItem.title}>
               <div className="mb-4">
                 <img src={classItem.image} alt={classItem.title} className="w-full h-48 object-cover rounded-md" />
               </div>

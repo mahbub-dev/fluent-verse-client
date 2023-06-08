@@ -1,4 +1,5 @@
 import ClassesSection from "../Components/ClassesSection"
+import InstructorsSection from "../Components/InstructionSection"
 import AwesomeSlider from "../Components/Slider"
 
 const Home = () => {
@@ -6,6 +7,7 @@ const Home = () => {
         <div>
             <AwesomeSlider />
             <ClassesSection/>
+            <InstructorsSection/>
         </div>
     )
 }
