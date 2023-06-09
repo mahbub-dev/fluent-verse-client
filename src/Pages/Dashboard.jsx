@@ -7,8 +7,8 @@ import { Link, Outlet, useLoaderData, useLocation } from 'react-router-dom'
 
 const StudentDashboard = () => {
     const isStudent = false
-    const isAdmin = true
-    const isInstructor = false
+    const isAdmin = false
+    const isInstructor = true
     const location = useLocation().pathname.split('/')[2]
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const toggleSidebar = () => {
@@ -36,14 +36,14 @@ const StudentDashboard = () => {
                     {/* student routes  */}
                     {isStudent &&
                         <>
-                            <li className={`${location === 'myselectedclasses' && 'bg-gray-500 text-white'} p-3`}>
-                                <Link to={'/dashboard/myselectedclasses'} className='block'>
+                            <li className={`${location === 'my-selected-classes' && 'bg-gray-500 text-white'} p-3`}>
+                                <Link to={'/dashboard/my-selected-classes'} className='block'>
                                     <FiClipboard className="inline-block mr-2" />
                                     My Selected Classes
                                 </Link>
                             </li>
-                            <li className={`${location === 'myenrolledclasses' && 'bg-gray-500 text-white'} p-3`}>
-                                <Link to={'/dashboard/myenrolledclasses'} className='block'>
+                            <li className={`${location === 'my-enrolled-classes' && 'bg-gray-500 text-white'} p-3`}>
+                                <Link to={'/dashboard/my-enrolled-classes'} className='block'>
                                     <FiCheckSquare className="inline-block mr-2" />
                                     My Enrolled Classes
                                 </Link>
@@ -80,8 +80,8 @@ const StudentDashboard = () => {
                                     Manage Classes
                                 </Link>
                             </li>
-                            <li className={`${location === 'manage-user' && 'bg-gray-500 text-white'} p-3`}>
-                                <Link to={'/dashboard/manage-user'} className='block'>
+                            <li className={`${location === 'manage-users' && 'bg-gray-500 text-white'} p-3`}>
+                                <Link to={'/dashboard/manage-users'} className='block'>
                                     <RiUserSettingsLine className="inline-block mr-2" />
                                     Manage User
                                 </Link>

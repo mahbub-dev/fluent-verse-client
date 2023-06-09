@@ -6,8 +6,8 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, } from "firebase/auth";
 import app from "../../firebase.config";
 import { useAuth } from "../Hooks/useAuth";
-
-
+import axios from "axios";
+// import axios from "axios";
 const Registration = () => {
     const location = useLocation()
     const { user, userLogin, handleGoogleLogin } = useAuth()
@@ -35,12 +35,19 @@ const Registration = () => {
     }
     const onSubmit = (data) => {
         createUserWithEmailAndPassword(auth, data.email, data.password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                updateProfile(user, {
-                    displayName: data.name, photoURL: data.photoURL
-                }).then(() => { }).catch((error) => { console.log(error) });
-                userLogin(user, location)
+            .then(async (userCredential) => {
+                try {
+                    const user = userCredential.user;
+                    await updateProfile(user, {
+                        displayName: data.name, photoURL: data.photoURL
+                    })
+                    const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user`, data)
+                    user.access_token = res?.access_token
+                    userLogin(user, location)
+                } catch (error) {
+                    console.log(error)
+                }
+
             })
             .catch((error) => {
                 const errorMessage = error.message;

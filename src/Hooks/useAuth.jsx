@@ -5,6 +5,7 @@ import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signO
 import { useNavigate } from 'react-router-dom'
 import app from '../../firebase.config'
 import Swal from 'sweetalert2'
+import axios from 'axios'
 const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
@@ -20,6 +21,7 @@ const AuthProvider = ({ children }) => {
                 setUser('')
             }
         });
+        //    logOut()
         return unsubscribe()
     }, [auth])
 
@@ -27,28 +29,32 @@ const AuthProvider = ({ children }) => {
         signOut(auth)
         localStorage.clear()
         setUser('')
-        navigate('/')
+        navigate('/login')
     }
 
     const userLogin = (user, path) => {
         setUser(user)
-        localStorage.setItem('uid', user?.user)
+        localStorage.setItem('uid', user?.uid)
+        localStorage.setItem('access-token', user.access_token)
         navigate(`${path.state?.from || '/'}`)
     }
 
-    const handleGoogleLogin = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                const user = result.user;
-                userLogin(user, location)
-            }).catch((error) => {
-                const errorMessage = error.message;
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Firebase Error',
-                    text: errorMessage,
-                })
-            });
+    const handleGoogleLogin = async (location) => {
+        try {
+            const result = await signInWithPopup(auth, provider)
+            const user = result.user;
+            const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user?google=true`, { name: user.displayName, email: user.email })
+            console.log(res.data)
+            user.access_token = res?.data?.access_token
+            userLogin(user, location)
+        } catch (error) {
+            const errorMessage = error?.response?.data.message || error.message
+            Swal.fire({
+                icon: 'error',
+                text: errorMessage,
+            })
+        }
+
     }
     const value = {
         user,

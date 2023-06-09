@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { RiUserAddLine, RiUserFollowLine } from "react-icons/ri";
-import { useAuth } from "../Hooks/useAuth";
 // import { updateProfileRole } from "../../api/userAPI";
 
 const ManageUsers = () => {
-  const { users } = useAuth();
+
   const [disabledButtons, setDisabledButtons] = useState([]);
+  const users = []
 
   const makeInstructor = (user) => {
  

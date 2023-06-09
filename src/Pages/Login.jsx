@@ -6,6 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase.config";
 import Swal from 'sweetalert2'
 import { useAuth } from "../Hooks/useAuth";
+import axios from "axios";
 
 const Login = () => {
     const location = useLocation()
@@ -17,20 +18,22 @@ const Login = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
-        signInWithEmailAndPassword(auth, data.email, data.password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                userLogin(user, location)
+    const onSubmit = async (data) => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password)
+            const user = userCredential.user;
+            signInWithEmailAndPassword(auth, data.email, data.password)
+            const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user?google=true`, { name: user.displayName, email: user.email })
+            user.access_token = res?.data?.access_token
+            userLogin(user, location)
+        } catch (error) {
+            const errorMessage = error.message;
+            Swal.fire({
+                icon: 'error',
+                title: 'firebase error',
+                text: errorMessage,
             })
-            .catch((error) => {
-                const errorMessage = error.message;
-                Swal.fire({
-                    icon: 'error',
-                    title: 'firebase error',
-                    text: errorMessage,
-                })
-            });
+        }
     };
 
 
