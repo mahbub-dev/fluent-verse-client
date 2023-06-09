@@ -1,42 +1,23 @@
 
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { Fade } from 'react-awesome-reveal';
 
 const ClassesSection = () => {
-  const classesData = [
-    {
-      title: 'English Conversation',
-      image: 'https://play-lh.googleusercontent.com/zMX7zvR1642YPRvEpLEPzDrW0TyO6etmNjuNwxJopAmrui2lEuPZj-YowOprA57INkA',
-      students: 150,
-    },
-    {
-      title: 'Spanish for Beginners',
-      image: 'https://www.blablalang.com/wp-content/uploads/spanish-words-for-beginners.jpg',
-      students: 120,
-    },
-    {
-      title: 'French Cuisine',
-      image: 'https://us.123rf.com/450wm/golibtolibov/golibtolibov1802/golibtolibov180200029/96771952-human-hand-writing-text-on-blackboard-learn-french.jpg?ver=6',
-      students: 100,
-    },
-    {
-      title: 'German Grammar',
-      image: 'https://www.expatden.com/wp-content/uploads/2020/04/Basic-German-Grammar-1-700x366.png',
-      students: 90,
-    },
-    {
-      title: 'Chinese Calligraphy',
-      image: 'https://img.freepik.com/free-photo/top-view-assortment-chinese-symbols-written-with-ink_23-2148826184.jpg',
-      students: 80,
-    },
-    {
-      title: 'Japanese Culture',
-      image: 'https://miro.medium.com/v2/resize:fit:1200/1*5D2eeHnU7PWF5WVfvRmPUQ.png',
-      students: 70,
-    },
-  ];
+  const { isLoading, error, data: classesData } = useQuery({
+    queryKey: ['classes'],
+    queryFn: async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_APP_SERVER_URL}/classes`)
+        return res.data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  })
 
-  const sortedClasses = classesData.sort((a, b) => b.students - a.students);
-  const topClasses = sortedClasses.slice(0, 6);
+  const sortedClasses = classesData?.sort((a, b) => b.students - a.students);
+  const topClasses = sortedClasses?.slice(0, 6);
 
   return (
     <section className="py-10">
@@ -45,9 +26,9 @@ const ClassesSection = () => {
           Popular Classes
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {topClasses.map((classItem, index) => (
+          {topClasses?.map((classItem, index) => (
             <Fade
-              key={classItem.title}
+              key={classItem._id}
               cascade
               direction="up"
               damping={0.2}

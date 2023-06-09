@@ -23,7 +23,7 @@ const Login = () => {
             const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password)
             const user = userCredential.user;
             signInWithEmailAndPassword(auth, data.email, data.password)
-            const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user?google=true`, { name: user.displayName, email: user.email })
+            const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user?google=true`, { name: user.displayName, email: user.email, image: user.photoURL })
             user.access_token = res?.data?.access_token
             userLogin(user, location)
         } catch (error) {

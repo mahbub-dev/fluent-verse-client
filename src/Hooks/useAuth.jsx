@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
             try {
                 if (user) {
                     const serverUser = await axiosSecure.get('/server-logged')
-                    user.role = serverUser.data.role
+                    user.role = serverUser?.data?.role
                     setUser(user)
                 } else {
                     setUser('')
@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
         });
         //    logOut()
         return unsubscribe()
-    }, [auth,axiosSecure])
+    }, [auth, axiosSecure])
 
 
     const userLogin = (user, path) => {
@@ -52,7 +52,7 @@ const AuthProvider = ({ children }) => {
         try {
             const result = await signInWithPopup(auth, provider)
             const user = result.user;
-            const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user?google=true`, { name: user.displayName, email: user.email })
+            const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user?google=true`, { name: user.displayName, email: user.email, image: user.photoURL })
             console.log(res.data)
             user.access_token = res?.data?.access_token
             userLogin(user, location)

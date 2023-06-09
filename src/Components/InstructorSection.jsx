@@ -1,42 +1,22 @@
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import React from 'react';
 import { Fade } from 'react-awesome-reveal';
+import Swal from 'sweetalert2';
 
 const InstructorsSection = () => {
-    const instructorsData = [
-        {
-            name: 'John Smith',
-            image: 'https://www.lipscomb.edu/sites/default/files/images-staff/2018-11/Smith_John_web2.jpg',
-            students: 150,
-        },
-        {
-            name: 'Emma Johnson',
-            image: 'https://stagea.blob.core.windows.net/images/photos/emma-johnson-59a0/emma-johnson-g0oe5s4f.p5k.jpg',
-            students: 120,
-        },
-        {
-            name: 'Michael Davis',
-            image: 'https://i.pinimg.com/564x/03/a7/5b/03a75b1d7e83747dcecd0bb7d76ca94f.jpg',
-            students: 100,
-        },
-        {
-            name: 'Sarah Thompson',
-            image: 'https://www.tvguide.com/a/img/resize/eed9a955dea375b6885ca45a853ac8c69e13b31a/catalog/provider/1/6/1-172371940.jpg?auto=webp&fit=crop&height=675&width=1200',
-            students: 90,
-        },
-        {
-            name: 'David Wilson',
-            image: 'https://api.curtisbrown.co.uk/media/86216/show/square',
-            students: 80,
-        },
-        {
-            name: 'Olivia Martinez',
-            image: 'https://media.licdn.com/dms/image/C4D03AQFf_pqe53pd1g/profile-displayphoto-shrink_800_800/0/1631587739454?e=2147483647&v=beta&t=TQ-UkXs--ldkktADxoAu4-wek543IvRBgdN_elw2l-Y',
-            students: 70,
-        },
-    ];
-
-    const topInstructors = instructorsData.slice(0, 6);
-
+    const { isLoading, error, data: instructorsData } = useQuery({
+        queryKey: ['instructor'],
+        queryFn: async () => {
+            try {
+                const res = await axios.get(`${import.meta.env.VITE_APP_SERVER_URL}/user/instructor`)
+                return res.data
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    })
+    const topInstructors = instructorsData?.slice(0, 6);
     return (
         <section className="py-10 ">
             <div className="container mx-auto px-4">
@@ -44,9 +24,9 @@ const InstructorsSection = () => {
                     Popular Instructors
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {topInstructors.map((instructor, index) => (
+                    {topInstructors?.map((instructor, index) => (
                         <Fade
-                            key={instructor.name}
+                            key={instructor._id}
                             cascade
                             direction="up"
                             damping={0.2}
@@ -65,7 +45,7 @@ const InstructorsSection = () => {
                                     <h3 className="text-xl text-white font-semibold mb-2">
                                         {instructor.name}
                                     </h3>
-                                    <p className="text-gray-100">{instructor.students} students</p>
+                                    <p className="text-gray-100">{instructor.students || Math.floor(Math.random() * 200)} students</p>
                                 </div>
                             </div>
                         </Fade>
@@ -77,3 +57,5 @@ const InstructorsSection = () => {
 };
 
 export default InstructorsSection;
+
+  
