@@ -43,7 +43,7 @@ const Login = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
     if (user?.displayName) {
-        return <Navigate to={'/'} />
+        return <Navigate to={location.state?.from.pathname || '/'} />
     }
     return (
         <div className="flex flex-col items-center justify-center md:min-h-screen">
@@ -99,7 +99,7 @@ const Login = () => {
                 </p>
                 <button
                     className="flex items-center mt-5 mx-auto justify-center px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-red-700"
-                    onClick={handleGoogleLogin}
+                    onClick={() => handleGoogleLogin(location)}
                 >
                     <FaGoogle className="mr-2" />
                     Continue with Google

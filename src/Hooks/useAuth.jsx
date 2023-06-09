@@ -26,7 +26,10 @@ const AuthProvider = ({ children }) => {
             try {
                 if (user) {
                     const serverUser = await axiosSecure.get('/server-logged')
+                    console.log(serverUser?.data)
                     user.role = serverUser?.data?.role
+                    user._id = serverUser?.data?._id
+                    user.selectedClasses = serverUser?.data?.selectedClasses
                     setUser(user)
                 } else {
                     setUser('')
@@ -45,7 +48,7 @@ const AuthProvider = ({ children }) => {
         setUser(user)
         localStorage.setItem('uid', user?.uid)
         localStorage.setItem('access-token', user.access_token)
-        navigate(`${path.state?.from || '/'}`)
+        navigate(`${path.state?.from?.pathname}` || '/')
     }
 
     const handleGoogleLogin = async (location) => {
