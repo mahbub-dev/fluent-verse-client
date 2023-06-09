@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +8,8 @@ const axiosSecure = axios.create({
 	baseURL: import.meta.env.VITE_APP_SERVER_URL,
 });
 
-const useAxiosSecure = () => {
-	const { logOut } = useAuth();
+const useAxiosSecure = (logOut) => {
+	// const { logOut } = useAuth();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -28,13 +29,13 @@ const useAxiosSecure = () => {
 					(error.response.status === 401 ||
 						error.response.status === 403)
 				) {
-					await logOut();
+					logOut();
 					navigate("/login");
 				}
 				return Promise.reject(error);
 			}
 		);
-	}, [logOut, navigate]);
+	}, [navigate, logOut]);
 
 	return axiosSecure;
 };

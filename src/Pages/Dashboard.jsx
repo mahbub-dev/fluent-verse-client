@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { FiHome, FiClipboard, FiCheckSquare,FiMenu } from 'react-icons/fi';
-import { RiAddLine,RiBook2Line, RiSettingsLine, RiUserSettingsLine } from 'react-icons/ri';
+import { FiHome, FiClipboard, FiCheckSquare, FiMenu } from 'react-icons/fi';
+import { RiAddLine, RiBook2Line, RiSettingsLine, RiUserSettingsLine } from 'react-icons/ri';
 import { RxCross2 } from 'react-icons/rx';
 
-import { Link, Outlet, useLoaderData, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
+import { useAuth } from '../Hooks/useAuth';
 
 const StudentDashboard = () => {
-    const isStudent = false
-    const isAdmin = false
-    const isInstructor = true
+    const { user } = useAuth()
     const location = useLocation().pathname.split('/')[2]
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const toggleSidebar = () => {
@@ -34,7 +33,7 @@ const StudentDashboard = () => {
 
 
                     {/* student routes  */}
-                    {isStudent &&
+                    {user.role === 'student' &&
                         <>
                             <li className={`${location === 'my-selected-classes' && 'bg-gray-500 text-white'} p-3`}>
                                 <Link to={'/dashboard/my-selected-classes'} className='block'>
@@ -53,7 +52,7 @@ const StudentDashboard = () => {
 
 
                     {/* instructor routes  */}
-                    {isInstructor &&
+                    {user?.role === 'instructor' &&
 
                         <>
                             <li className={`${location === 'add-class' && 'bg-gray-500 text-white'} p-3`}>
@@ -72,7 +71,7 @@ const StudentDashboard = () => {
                     }
 
                     {
-                        isAdmin &&
+                        user?.role === 'admin' &&
                         <>
                             <li className={`${location === 'manage-classes' && 'bg-gray-500 text-white'} p-3`}>
                                 <Link to={'/dashboard/manage-classes'} className='block'>

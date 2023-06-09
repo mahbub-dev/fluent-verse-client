@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import app from '../../firebase.config'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import useAxiosSecure from './useAxiosSecure'
 const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
@@ -13,24 +14,32 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
     const isUserLoggedIn = localStorage.getItem('uid')
     const provider = new GoogleAuthProvider();
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser(user)
-            } else {
-                setUser('')
-            }
-        });
-        //    logOut()
-        return unsubscribe()
-    }, [auth])
-
     const logOut = () => {
         signOut(auth)
         localStorage.clear()
         setUser('')
         navigate('/login')
     }
+    const axiosSecure = useAxiosSecure(logOut)
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            try {
+                if (user) {
+                    const serverUser = await axiosSecure.get('/server-logged')
+                    user.role = serverUser.data.role
+                    setUser(user)
+                } else {
+                    setUser('')
+                }
+            } catch (error) {
+                console.log(error)
+            }
+
+        });
+        //    logOut()
+        return unsubscribe()
+    }, [auth,axiosSecure])
+
 
     const userLogin = (user, path) => {
         setUser(user)
