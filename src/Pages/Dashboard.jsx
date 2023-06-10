@@ -97,9 +97,9 @@ const StudentDashboard = () => {
             </aside>
 
             {/* Content */}
-            <main className="flex-grow overflow-auto p-8">
+            <main className="flex-grow overflow-auto p-4 md:p-8">
                 {/* Mobile Sidebar Toggle */}
-                <div className="md:hidden">
+                <div className="md:hidden mb-4">
                     <button
                         className="bg-gray-200 px-3 py-2 rounded-md"
                         onClick={toggleSidebar}

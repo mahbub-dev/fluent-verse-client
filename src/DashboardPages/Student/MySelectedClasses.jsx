@@ -44,11 +44,11 @@ const MySelectedClasses = () => {
     }
 
     return (
-        <section className='mb-8 overflow-auto'>
+        <section className='mb-8 overflow-auto '>
             <h3 className="text-2xl font-bold mb-4 text-white">My Selected Classes</h3>
-            <div className='flex justify-between'>
+            <div className='flex mb-5 justify-between items-center bg-gradient-to-r from-blue-500 to-blue-700 p-2 rounded'>
                 <h1 className='text-xl text-white'>Total : ${data?.reduce((sum = 0, i) => sum + i.price, 0).toFixed(2)} </h1>
-                <button onClick={() => navigate('/dashboard/payment', { state: { data: data } })} className="bg-blue-500  mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button onClick={() => navigate('/dashboard/payment', { state: { data: data } })} disabled={!data?.length} className="bg-yellow-500   hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                     Pay
                 </button>
             </div>

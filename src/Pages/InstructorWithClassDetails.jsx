@@ -3,7 +3,9 @@ import axios from 'axios';
 import ClassCard from '../Components/ClassCard';
 import { FaUserCircle, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { useAuth } from '../Hooks/useAuth';
 const InstructorWithClassDetails = () => {
+    const {user}= useAuth()
     const params = useParams()
     const { data } = useQuery({
         queryKey: ['instructorWithClassDetails'],
@@ -52,7 +54,15 @@ const InstructorWithClassDetails = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {data?.classes?.map((classItem) => (
-                    <ClassCard classItem={classItem} key={classItem._id} />
+                    <ClassCard classItem={classItem} key={classItem._id} >
+                             <button
+                            className={`transition-all rounded hover:bg-yellow-600 ${classItem.availableSeats && !data?.selectedClassIds?.includes(classItem._id) ? 'bg-yellow-500' : 'bg-yellow-600'} text-gray-200 rounded py-2 px-4`}
+                            disabled={!user?.role === 'student' || !classItem.availableSeats || data?.selectedClassIds?.includes(classItem._id) || classItem?.isEnrolled}
+                            onClick={() => handleClassSelection(classItem._id)}
+                        >
+                            {data?.selectedClassIds?.includes(classItem._id) ? 'Selected' : classItem?.isEnrolled ? 'Enrolled' : "Select"}
+                        </button>
+                    </ClassCard>
                 ))}
             </div>
         </div>

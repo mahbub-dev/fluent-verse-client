@@ -43,7 +43,7 @@ const PaymentHistory = () => {
                             {data?.map((payment) => (
                                 <tr key={payment._id}>
                                     <td className="py-2 px-4 border-b">{payment.transactionId}</td>
-                                    <td className="py-2 px-4 border-b">{payment.itemNames?.map((i,ind)=><span key={ind}>{i} , </span>)}</td>
+                                    <td className="py-2 px-4 border-b">{payment.itemNames?.map((i,ind)=><span key={ind}>{i} </span>)}</td>
                                     <td className="py-2 px-4 border-b text-right">${payment?.price?.toFixed(2)}</td>
                                     <td className="py-2 px-4 border-b text-right">{payment.date}</td>
                                 </tr>

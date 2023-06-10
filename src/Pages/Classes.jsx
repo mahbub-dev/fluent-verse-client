@@ -12,18 +12,15 @@ const ClassesPage = () => {
     const navigate = useNavigate()
     const axiosSecure = useAxiosSecure(logOut)
     const { data, refetch } = useQuery({
-        queryKey: ['asfds'],
+        queryKey: ['classPage'],
         queryFn: async () => {
             try {
-                let res
-                const { data: allClasses } = await axios.get(`${import.meta.env.VITE_APP_SERVER_URL}/classes`)
-                res = { allClasses }
                 if (localStorage.getItem('uid')) {
-
-                    const { data: selectedClassIds } = await axiosSecure.get(`/selected-classes?action=get_only_ids`)
-                    res.selectedClassIds = selectedClassIds.selectedClasses
+                    const res = await axiosSecure.get(`/private-classes`)
+                    return res.data
                 }
-                return res
+                const { data } = await axios.get(`${import.meta.env.VITE_APP_SERVER_URL}/classes`)
+                return data
             } catch (error) {
                 console.log(error)
             }
@@ -57,14 +54,14 @@ const ClassesPage = () => {
     return (
         <div className="container mx-auto px-4 py-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data?.allClasses?.map((classItem) => (
+                {data?.map((classItem) => (
                     <ClassCard classItem={classItem} key={classItem._id} >
                         <button
-                            className={`transition-all rounded hover:bg-yellow-600 ${classItem.availableSeats && !data?.selectedClassIds?.includes(classItem._id) ? 'bg-yellow-500' : 'bg-yellow-600'} text-gray-200 rounded py-2 px-4`}
-                            disabled={!user?.role === 'student' || !classItem.availableSeats || data?.selectedClassIds?.includes(classItem._id) || classItem?.isEnrolled}
+                            className={`transition-all rounded  ${!classItem.availableSeats || !classItem?.isSelected || !classItem?.isEnrolled ? 'bg-yellow-600' : 'bg-yellow-700'} text-gray-200 rounded py-2 px-4`}
+                            disabled={!user?.role === 'student' || !classItem.availableSeats || classItem?.isSelected || classItem?.isEnrolled}
                             onClick={() => handleClassSelection(classItem._id)}
                         >
-                            {data?.selectedClassIds?.includes(classItem._id) ? 'Selected' : classItem?.isEnrolled ? 'Enrolled' : "Select"}
+                            {classItem?.isSelected ? 'Selected' : classItem?.isEnrolled ? 'Enrolled' : "Select"}
                         </button>
                     </ClassCard>
                 ))}

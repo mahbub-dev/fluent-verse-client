@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 const CheckOut = ({ clientSecret, handlePaymentDetails, user }) => {
     const stripe = useStripe();
     const elements = useElements();
-    console.log(user?.email)
     const [processing, setProcessing] = useState(false);
     const [cardError, setCardError] = useState('');
     const [transactionId, setTransactionId] = useState('');

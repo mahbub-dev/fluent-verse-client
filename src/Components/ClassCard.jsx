@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "../Hooks/useAuth"
 import useAxiosSecure from "../Hooks/useAxiosSecure"
 
@@ -18,7 +18,7 @@ const ClassCard = ({ classItem, children }) => {
                 className="w-full h-48 object-cover mb-4 rounded-md"
             />
             <h2 className="text-lg font-bold mb-2">{classItem.name}</h2>
-            {pathname !== "instructors" && <p className="text-gray-100 mb-2">Instructor: {classItem.instructor}</p>}
+            {pathname !== "instructors" && <p className="text-gray-100 mb-2">Instructor: <Link to={`/instructors/${classItem?.instructor?._id}`}>{classItem.instructor?.name}</Link></p>}
             <p className="mb-2 text-white">
                 Available Seats:{' '}
                 {classItem.availableSeats}

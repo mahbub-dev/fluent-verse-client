@@ -11,9 +11,8 @@ const MyEnrolledClasses = () => {
         queryKey: ['enrolled'],
         queryFn: async () => {
             try {
-                const res = await axiosSecure.get(`/classes`)
-                // setEnrolledClasses(res?.data?.filter(i => i.isEnrolled))
-                return res?.data?.filter(i => i.isEnrolled)
+                const res = await axiosSecure.get(`/enrolled-classes`)
+                return res?.data
             } catch (error) {
                 console.log(error)
             }
