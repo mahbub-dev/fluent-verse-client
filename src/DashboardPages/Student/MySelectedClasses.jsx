@@ -1,50 +1,59 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react'
 import { FiTrash } from 'react-icons/fi';
+import { useActionData } from 'react-router-dom';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import { useAuth } from '../../Hooks/useAuth';
+import SelectedClassCard from '../../Components/SelectedClassCard';
+import Swal from 'sweetalert2';
 
 const MySelectedClasses = () => {
-    const [selectedClasses, setSelectedClasses] = useState([
-        { id: 1, name: 'English Conversation', instructor: 'John Smith' },
-        { id: 2, name: 'Spanish for Beginners', instructor: 'Emma Johnson' },
-    ]);
-    const handleDeleteClass = (classId) => {
-        setSelectedClasses((prevClasses) =>
-            prevClasses.filter((c) => c.id !== classId)
-        );
-    };
+    const { logOut, user } = useAuth()
+    const axiosSecure = useAxiosSecure(logOut)
+    const { isLoading, data } = useQuery({
+        queryKey: ['classesPage'],
+        queryFn: async () => {
+            try {
+                const res = await axiosSecure.get(`/classes`)
+                setSelectedClasses(res?.data?.filter(i => user?.selectedClasses?.includes(i._id)))
+                return res.data
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    })
+    const [selectedClasses, setSelectedClasses] = useState([]);
+    const handleDeleteClass = async (classId) => {
+        try {
+            await axiosSecure.put(`/user/select-class/${classId}?action=remove`,)
+            Swal.fire({
+                icon: 'success',
+                title: 'Removed',
+                text: 'Class Removed successfully'
+            })
+            setSelectedClasses((prevClasses) =>
+                prevClasses.filter((c) => c._id !== classId)
+            );
+        } catch (error) {
+            console.log(error)
+        }
 
+    };
+    if (isLoading) {
+        return <p>Loading</p>
+    }
     return (
-        <section>
-            <h3 className="text-2xl font-bold mb-4">My Selected Classes</h3>
-            {selectedClasses.length === 0 ? (
+        <section className='mb-8 overflow-auto'>
+            <h3 className="text-2xl font-bold mb-4 text-white">My Selected Classes</h3>
+
+            {selectedClasses?.length === 0 ? (
                 <p>No selected classes.</p>
             ) : (
-                <ul className="space-y-4">
-                    {selectedClasses.map((classItem) => (
-                        <li
-                            key={classItem.id}
-                            className="flex items-center justify-between bg-white rounded-lg p-4 shadow"
-                        >
-                            <div>
-                                <h4 className="font-semibold">{classItem.name}</h4>
-                                <p>Instructor: {classItem.instructor}</p>
-                            </div>
-                            <div>
-                                <button
-                                    className="text-red-500 hover:text-red-700"
-                                    onClick={() => handleDeleteClass(classItem.id)}
-                                >
-                                    <FiTrash className="inline-block" />
-                                </button>
-                                <button
-                                    className="bg-blue-500 text-white px-4 py-2 rounded-lg ml-2"
-                                    disabled
-                                >
-                                    Pay
-                                </button>
-                            </div>
-                        </li>
+                <div className="grid lg:grid-cols-3 gap-5">
+                    {selectedClasses?.map((classItem) => (
+                        <SelectedClassCard key={classItem._id} data={classItem} handleDeleteClass={handleDeleteClass} />
                     ))}
-                </ul>
+                </div>
             )}
         </section>
     )

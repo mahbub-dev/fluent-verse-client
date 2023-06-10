@@ -26,7 +26,6 @@ const AuthProvider = ({ children }) => {
             try {
                 if (user) {
                     const serverUser = await axiosSecure.get('/server-logged')
-                    console.log(serverUser?.data)
                     user.role = serverUser?.data?.role
                     user._id = serverUser?.data?._id
                     user.selectedClasses = serverUser?.data?.selectedClasses

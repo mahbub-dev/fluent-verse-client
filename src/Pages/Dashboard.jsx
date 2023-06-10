@@ -17,13 +17,13 @@ const StudentDashboard = () => {
         <div className="flex h-screen">
             {/* Sidebar */}
             <aside
-                className={`bg-gray-200 md:w-1/4 p-4 h-screen absolute md:static transition-transform duration-300 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                className={`bg-gray-700 md:w-1/4 p-4 h-screen absolute md:static transition-transform duration-300 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                     } md:translate-x-0 md:block`}
             >
-                <h2 className="text-2xl font-bold mb-4">Dashboard
+                <h2 className="text-2xl font-bold mb-4 text-white">Dashboard
                     <RxCross2 className='absolute md:hidden right-2 top-5 cursor-pointer' onClick={() => setIsSidebarOpen(false)} />
                 </h2>
-                <ul className="">
+                <ul className="text-gray-300">
                     <li className={`${!location && 'bg-gray-500 text-white'} p-3`}>
                         <Link to={'/dashboard'} className='block'>
                             <FiHome className="inline-block mr-2" />
@@ -91,7 +91,7 @@ const StudentDashboard = () => {
             </aside>
 
             {/* Content */}
-            <main className="flex-grow p-8">
+            <main className="flex-grow overflow-auto p-8">
                 {/* Mobile Sidebar Toggle */}
                 <div className="md:hidden">
                     <button

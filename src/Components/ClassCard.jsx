@@ -22,7 +22,7 @@ const ClassCard = ({ classItem }) => {
                 navigate('/login', { state: { from: location } })
                 return
             }
-            await axiosSecure.put(`/user/select-class/${classItem._id}`,)
+            await axiosSecure.put(`/user/select-class/${classItem._id}?action=add`,)
             Swal.fire({
                 icon: 'success',
                 title: 'Selected',

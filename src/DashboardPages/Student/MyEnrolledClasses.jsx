@@ -3,10 +3,11 @@ import { useState } from 'react'
 const MyEnrolledClasses = () => {
     const [enrolledClasses, setEnrolledClasses] = useState([
         { id: 3, name: 'French Cuisine', instructor: 'Michael Davis' },
+        { id: 3, name: 'French Cuisine', instructor: 'Michael Davis' },
     ]);
     return (
-        <section className="mt-8">
-            <h3 className="text-2xl font-bold mb-4">My Enrolled Classes</h3>
+        <section className="mt-4">
+            <h3 className="text-2xl font-bold mb-4 text-white">My Enrolled Classes</h3>
             {enrolledClasses.length === 0 ? (
                 <p>No enrolled classes.</p>
             ) : (
