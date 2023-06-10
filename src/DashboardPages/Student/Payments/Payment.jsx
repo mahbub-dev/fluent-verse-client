@@ -1,6 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CheckOut from "./CheckOut";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
@@ -15,6 +15,7 @@ const Payment = () => {
     const total = cart.reduce((sum, item) => sum + item.price, 0);
     const [clientSecret, setClientSecret] = useState('');
     const price = parseFloat(total.toFixed(2))
+    const navigate = useNavigate()
     useEffect(() => {
         if (price > 0) {
             axiosSecure.post('/create-payment-intent', { price })
@@ -37,10 +38,7 @@ const Payment = () => {
         }
         axiosSecure.post('/payments', payment)
             .then(res => {
-                console.log(res.data);
-                if (res.data.result.insertedId) {
-                    console.log(res.data.result.insertedId)
-                }
+                navigate('/dashboard/payment-history')
             })
 
     }

@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAuth } from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import ClassCard from '../../Components/ClassCard';
 
 const MyEnrolledClasses = () => {
-    const [enrolledClasses, setEnrolledClasses] = useState([]);
     const { logOut } = useAuth()
     const axiosSecure = useAxiosSecure(logOut)
     const { isLoading, refetch, data } = useQuery({
-        queryKey: ['classesPage'],
+        queryKey: ['enrolled'],
         queryFn: async () => {
             try {
                 const res = await axiosSecure.get(`/classes`)
@@ -28,17 +28,11 @@ const MyEnrolledClasses = () => {
             {data?.length === 0 ? (
                 <p>No enrolled classes.</p>
             ) : (
-                <ul className="space-y-4">
+                <div className="grid md:grid-cols-3 gap-5">
                     {data?.map((classItem) => (
-                        <li
-                            key={classItem?._id}
-                            className="bg-white rounded-lg p-4 shadow"
-                        >
-                            <h4 className="font-semibold">{classItem.name}</h4>
-                            <p>Instructor: {classItem.instructor}</p>
-                        </li>
+                        <ClassCard key={classItem._id} classItem={classItem} />
                     ))}
-                </ul>
+                </div>
             )}
         </section>
     )

@@ -66,8 +66,6 @@ const CheckOut = ({ clientSecret, handlePaymentDetails, user }) => {
             setTransactionId(paymentIntent.id)
             handlePaymentDetails(paymentIntent.id)
         }
-
-
     }
 
     return (

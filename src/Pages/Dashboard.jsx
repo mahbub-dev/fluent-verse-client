@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { FiHome, FiClipboard, FiCheckSquare, FiMenu } from 'react-icons/fi';
 import { RiAddLine, RiBook2Line, RiSettingsLine, RiUserSettingsLine } from 'react-icons/ri';
 import { RxCross2 } from 'react-icons/rx';

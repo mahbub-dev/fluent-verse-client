@@ -14,34 +14,37 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
     const isUserLoggedIn = localStorage.getItem('uid')
     const provider = new GoogleAuthProvider();
-    const logOut = () => {
+    const logOut = useCallback(() => {
         signOut(auth)
         localStorage.clear()
         setUser('')
         navigate('/login')
-    }
+    }, [navigate, auth])
     const axiosSecure = useAxiosSecure(logOut)
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             try {
                 if (user) {
-                    const serverUser = await axiosSecure.get('/server-logged')
-                    user.role = serverUser?.data?.role
-                    user._id = serverUser?.data?._id
-                    user.selectedClasses = serverUser?.data?.selectedClasses
-                    setUser(user)
+                    setUser(p => ({ ...p, ...user }))
                 } else {
                     setUser('')
                 }
             } catch (error) {
                 console.log(error)
             }
-
         });
         //    logOut()
         return unsubscribe()
-    }, [auth, axiosSecure])
+    }, [auth])
 
+    useEffect(() => {
+        axiosSecure.get('/server-logged').then(res => {
+            setUser(p => ({ ...p, ...res.data }))
+        }).catch(err => {
+            console.log(err)
+            logOut()
+        })
+    }, [logOut, axiosSecure])
 
     const userLogin = (user, path) => {
         setUser(user)
