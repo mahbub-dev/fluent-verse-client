@@ -1,0 +1,17 @@
+.CardElement {
+    height: 40px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+  }
+  
+  .CardElement--focused {
+    border-color: #000;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }

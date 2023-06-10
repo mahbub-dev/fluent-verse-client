@@ -19,6 +19,8 @@ import ManageUsers from "../DashboardPages/Admin/ManageUsers";
 import PrivateRoute from "./PrivateRoute";
 import DashboardHome from "../DashboardPages/DashboardHome";
 import InstructorWithClassDetails from "../Pages/InstructorWithClassDetails";
+import Payment from "../DashboardPages/Student/Payments/Payment";
+import PaymentHistory from "../DashboardPages/Student/PaymentHistory";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
             element: <PrivateRoute identifire={'student'}><MyEnrolledClasses /> </PrivateRoute>
           },
           {
+            path: '/dashboard/payment',
+            element: <PrivateRoute identifire={'student'}><Payment /></PrivateRoute>
+          },
+          {
+            path: '/dashboard/payment-history',
+            element: <PrivateRoute identifire={'student'}><PaymentHistory /></PrivateRoute>
+          },
+          {
             path: '/dashboard/add-class',
             element: <PrivateRoute identifire={'instructor'}> <AddAClass /></PrivateRoute>
           },
@@ -81,6 +91,7 @@ const router = createBrowserRouter([
             path: '/dashboard/manage-users',
             element: <PrivateRoute identifire={'admin'}><ManageUsers /></PrivateRoute>
           },
+
 
         ]
       }

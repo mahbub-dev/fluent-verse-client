@@ -47,6 +47,12 @@ const StudentDashboard = () => {
                                     My Enrolled Classes
                                 </Link>
                             </li>
+                            <li className={`${location === 'payment-history' && 'bg-gray-500 text-white'} p-3`}>
+                                <Link to="/dashboard/payment-history" className="block">
+                                    <FiClipboard className="inline-block mr-2" />
+                                    Payment History
+                                </Link>
+                            </li>
                         </>
                     }
 
