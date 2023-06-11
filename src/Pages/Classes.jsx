@@ -4,13 +4,10 @@ import ClassCard from '../Components/ClassCard';
 import { useEffect } from 'react';
 import { useAuth } from '../Hooks/useAuth';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 import ClassAddRemoveBtn from '../Components/ClassAddRemoveBtn';
 
 const ClassesPage = () => {
-    const { logOut, user } = useAuth()
-    const navigate = useNavigate()
+    const { logOut } = useAuth()
     const axiosSecure = useAxiosSecure(logOut)
     const { data, refetch } = useQuery({
         queryKey: ['classPage'],
