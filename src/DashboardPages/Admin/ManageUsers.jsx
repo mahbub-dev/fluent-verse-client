@@ -1,35 +1,41 @@
-import React, { useState } from 'react';
-
-import { FaUserGraduate, FaChalkboardTeacher, FaUserShield } from 'react-icons/fa';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../../Hooks/useAuth';
 
 const ManageUsers = () => {
+  const { logOut } = useAuth()
+  const axiosSecure = useAxiosSecure(logOut)
   const [users, setUsers] = useState([
     { id: 1, name: 'John Doe', role: 'Student' },
     { id: 2, name: 'Jane Smith', role: 'Student' },
     { id: 3, name: 'Mark Johnson', role: 'Student' },
     // Add more users as needed
   ]);
-
-  const makeInstructor = (id) => {
-    const updatedUsers = users.map((user) => {
-      if (user.id === id) {
-        return { ...user, role: 'Instructor' };
+  const { data, refetch } = useQuery({
+    queryKey: ['manag-users-page'],
+    queryFn: async () => {
+      try {
+        const res = await axiosSecure.get(`/user/all`)
+        return res.data
+      } catch (error) {
+        console.log(error)
       }
-      return user;
-    });
-    setUsers(updatedUsers);
+    }
+  })
+
+  const handleRole = async (id, role) => {
+    try {
+      await axiosSecure.put(`/admin/manage-users/${id}?role=${role}`)
+      refetch()
+    } catch (error) {
+      console.log(error)
+    }
   };
 
-  const makeAdmin = (id) => {
-    const updatedUsers = users.map((user) => {
-      if (user.id === id) {
-        return { ...user, role: 'Admin' };
-      }
-      return user;
-    });
-    setUsers(updatedUsers);
-  };
-
+  useEffect(() => {
+    refetch()
+  }, [refetch])
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4 text-white">Manage Users</h2>
@@ -40,6 +46,9 @@ const ManageUsers = () => {
               Name
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Email
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Role
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -48,32 +57,30 @@ const ManageUsers = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {users.map((user) => (
-            <tr key={user.id}>
+          {data?.map((user) => (
+            <tr key={user._id}>
               <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
               <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex">
-                  {user.role === 'Student' && (
-                    <button
-                      onClick={() => makeInstructor(user.id)}
-                      disabled={user.role !== 'Student'}
-                      className="px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600"
-                    >
-                      <FaChalkboardTeacher className="mr-2" />
-                      Make Instructor
-                    </button>
-                  )}
-                  {user.role !== 'Admin' && (
-                    <button
-                      onClick={() => makeAdmin(user.id)}
-                      disabled={user.role === 'Admin'}
-                      className="px-4 py-2 font-semibold text-white bg-red-500 rounded ml-2 hover:bg-red-600"
-                    >
-                      <FaUserShield className="mr-2" />
-                      Make Admin
-                    </button>
-                  )}
+
+                  <button
+                    onClick={() => handleRole(user._id, 'instructor')}
+                    disabled={user.role === 'instructor'}
+                    className={`${user.role === 'instructor' ? 'opacity-50' : 'hover:bg-blue-600'} px-4 py-2 font-semibold text-white bg-blue-500 rounded `}
+                  >
+                    Make Instructor
+                  </button>
+
+                  <button
+                    onClick={() => handleRole(user._id, 'admin')}
+                    disabled={user.role === 'admin'}
+                    className={`px-4 py-2 font-semibold text-white bg-red-500 ${user.role === 'admin' ? 'opacity-50' : 'hover:bg-red-600'} rounded ml-2 `}
+                  >
+                    Make Admin
+                  </button>
+
                 </div>
               </td>
             </tr>
