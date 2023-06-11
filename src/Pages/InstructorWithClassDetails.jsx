@@ -4,10 +4,11 @@ import ClassCard from '../Components/ClassCard';
 import { FaUserCircle, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../Hooks/useAuth';
+import ClassAddRemoveBtn from '../Components/ClassAddRemoveBtn';
 const InstructorWithClassDetails = () => {
-    const {user}= useAuth()
+    const { user } = useAuth()
     const params = useParams()
-    const { data } = useQuery({
+    const { data, refetch } = useQuery({
         queryKey: ['instructorWithClassDetails'],
         queryFn: async () => {
             try {
@@ -30,7 +31,7 @@ const InstructorWithClassDetails = () => {
                         </div>
                         <div>
                             <h1 className="text-white text-lg font-semibold">
-                                 {data?.instructor?.name}
+                                {data?.instructor?.name}
                             </h1>
                             <p className="text-white text-sm capitalize">{data?.instructor?.role}</p>
                             <p className='text-white text-sm'>Total Classes : {data?.classes.length}</p>
@@ -55,13 +56,7 @@ const InstructorWithClassDetails = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {data?.classes?.map((classItem) => (
                     <ClassCard classItem={classItem} key={classItem._id} >
-                             <button
-                            className={`transition-all rounded hover:bg-yellow-600 ${classItem.availableSeats && !data?.selectedClassIds?.includes(classItem._id) ? 'bg-yellow-500' : 'bg-yellow-600'} text-gray-200 rounded py-2 px-4`}
-                            disabled={!user?.role === 'student' || !classItem.availableSeats || data?.selectedClassIds?.includes(classItem._id) || classItem?.isEnrolled}
-                            onClick={() => handleClassSelection(classItem._id)}
-                        >
-                            {data?.selectedClassIds?.includes(classItem._id) ? 'Selected' : classItem?.isEnrolled ? 'Enrolled' : "Select"}
-                        </button>
+                        <ClassAddRemoveBtn refetch={refetch} classItem={classItem} />
                     </ClassCard>
                 ))}
             </div>

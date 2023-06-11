@@ -40,8 +40,6 @@ const InstructorPage = () => {
                   Classes:{' '}
                   {
                     item?.classes?.map(i => <span key={i._id} className="">{i.title}</span>)
-
-
                   }
                 </p>
               </>

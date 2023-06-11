@@ -18,7 +18,7 @@ const ClassCard = ({ classItem, children }) => {
                 className="w-full h-48 object-cover mb-4 rounded-md"
             />
             <h2 className="text-lg font-bold mb-2">{classItem.name}</h2>
-            {pathname[1] !== "instructors" && <p className="text-gray-100 mb-2">Instructor: <Link to={`/instructors/${classItem?.instructor?._id}`}>{classItem.instructor?.name}</Link></p>}
+            {pathname[1] !== "instructors" && <p className="text-gray-100 mb-2">Instructor: <Link to={`/instructors/${classItem?.instructorId}`}>{classItem?.instructor_name}</Link></p>}
             {pathname[2] !== 'my-enrolled-classes' && <p className="mb-2 text-white">Available Seats:{classItem.availableSeats}</p>}
             <p className="mb-4 text-white">Price: ${classItem.price}</p>
             {children}
