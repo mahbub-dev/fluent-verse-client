@@ -30,9 +30,9 @@ const AwesomeSlider = () => {
         >
             {
                 sliderInfo.map((info, ind) => (
-                    <div key={ind} className='relative'>
+                    <div key={ind} className='relative bg-gradient-to-r from-blue-500 to-blue-700'>
                         <img src={info.image} className='max-h-[600px] opacity-70 min-h-[300px]  z-[-1]' alt="Slider Image 1" />
-                        <div className="slider-content max-w-[500px] text-gray-200 bg-opacity-50 rotate-12  rounded p-3 bg-gray-500 z-[2] m-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                        <div className="slider-content max-w-[500px] text-gray-200 bg-opacity-50  rounded p-3 bg-gray-500 z-[2] m-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
                             <h2 className='text-2xl font-bold'>{info.title}</h2>
                             <p className='italic font-[11px]'>{info.desc}</p>
                         </div>

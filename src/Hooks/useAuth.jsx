@@ -58,7 +58,6 @@ const AuthProvider = ({ children }) => {
             const result = await signInWithPopup(auth, provider)
             const user = result.user;
             const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user?google=true`, { name: user.displayName, email: user.email, image: user.photoURL })
-            console.log(res.data)
             user.access_token = res?.data?.access_token
             userLogin(user, location)
         } catch (error) {

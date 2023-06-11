@@ -28,12 +28,11 @@ const ManageClasses = () => {
       await axiosSecure.patch(`/admin/manage-classes/${id}?action=updateStatus&status=${action}`)
       Swal.fire({
         icon: 'success',
-        title: action
+        title: 'Status Updated'
       })
     } catch (error) {
       console.log(error)
     }
-    alert('okay')
   };
 
 
@@ -54,7 +53,7 @@ const ManageClasses = () => {
     refetch
   }, [refetch])
   return (
-    <div className="container mx-auto px-4 sm:px-8">
+    <div className="container mb-20 rounded mx-auto">
       <ModalContainer isOpen={isOpen}>
         <div className='bg-gradient-to-r from-gray-500 to-gray-700 p-4 rounded'>
           <RxCross2 className='text-white block ms-auto cursor-pointer' onClick={() => setIsOpen(false)} />
@@ -72,31 +71,32 @@ const ManageClasses = () => {
 
       </ModalContainer>
       <h2 className="text-2xl font-bold mb-4 text-white">Manage Classes</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2  gap-4">
         {data?.map((classItem) => (
           <div
             key={classItem._id}
-            className="bg-white rounded shadow-md p-4 flex flex-col justify-between"
+            className="bg-green-300  rounded  p-4 flex flex-col justify-between"
           >
             <img
               src={classItem.image}
               alt="Class Image"
-              className="w-full h-32 object-cover mb-4"
+    
+              className="h-[200px] rounded-md mb-4"
             />
             <h3 className="text-lg font-bold mb-2">{classItem.title}</h3>
-            <p className="text-gray-600 mb-2">
+            <p className="text-gray-600 ">
               Instructor: {classItem.instructor_name}
             </p>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600 mb-2">
               Email: {classItem.instructor_email}
             </p>
-            <div className="flex flex-col mb-4">
+            <div className="flex flex-col mb-2">
               <p className="text-gray-600">
                 Available Seats: {classItem.availableSeats}
               </p>
               <p className="text-gray-600">Price: ${classItem.price}</p>
             </div>
-            <div className="flex flex-col mb-4">
+            <div className="flex flex-col mb-2">
               <p className="text-gray-600">Status: {classItem.status}</p>
               {classItem?.feedback && <p className='text-gray-700 font-semibold'>     Feedback: {classItem?.feedback}</p>}
               <div className="mt-2 flex space-x-2">

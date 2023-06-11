@@ -1,17 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from '../../Hooks/useAuth';
 
 const ManageUsers = () => {
   const { logOut } = useAuth()
   const axiosSecure = useAxiosSecure(logOut)
-  const [users, setUsers] = useState([
-    { id: 1, name: 'John Doe', role: 'Student' },
-    { id: 2, name: 'Jane Smith', role: 'Student' },
-    { id: 3, name: 'Mark Johnson', role: 'Student' },
-    // Add more users as needed
-  ]);
   const { data, refetch } = useQuery({
     queryKey: ['manag-users-page'],
     queryFn: async () => {
@@ -37,26 +31,26 @@ const ManageUsers = () => {
     refetch()
   }, [refetch])
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4 text-white">Manage Users</h2>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+    <div className='mb-20 '>
+      <h2 className="text-2xl  font-bold mb-4 text-white">Manage Users</h2>
+      <table className="min-w-full bg-green-300 rounded divide-y divide-gray-200">
+        <thead className="bg-black">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Name
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Email
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Role
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className=" divide-y divide-red-200">
           {data?.map((user) => (
             <tr key={user._id}>
               <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>

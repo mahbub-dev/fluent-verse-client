@@ -32,7 +32,7 @@ const ClassAddRemoveBtn = ({ classItem, refetch }) => {
     return (
         <button
             className={`transition-all rounded  ${(!classItem.availableSeats ? 'bg-yellow-600' : (classItem?.isSelected || classItem?.isEnrolled)) ? 'bg-yellow-600' : 'bg-yellow-500'} text-gray-200 rounded py-2 px-4`}
-            disabled={user?.role !== 'student' || !classItem.availableSeats || classItem?.isSelected || classItem?.isEnrolled}
+            disabled={['admin', 'instructor'].includes(user?.role) || !classItem.availableSeats || classItem?.isSelected || classItem?.isEnrolled}
             onClick={() => handleClassSelection(classItem._id)}
         >
             {classItem?.isSelected ? 'Selected' : classItem?.isEnrolled ? 'Enrolled' : "Select"}
