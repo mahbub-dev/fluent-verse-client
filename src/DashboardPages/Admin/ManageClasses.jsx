@@ -26,6 +26,7 @@ const ManageClasses = () => {
   const handleStatus = async (id, action) => {
     try {
       await axiosSecure.patch(`/admin/manage-classes/${id}?action=updateStatus&status=${action}`)
+      refetch()
       Swal.fire({
         icon: 'success',
         title: 'Status Updated'
@@ -39,12 +40,13 @@ const ManageClasses = () => {
   const sendFeedback = async () => {
     try {
       await axiosSecure.patch(`/admin/manage-classes/${classId}?action=updateFeedback`, { text })
+      refetch()
       Swal.fire({
         icon: 'success',
         title: 'Feedback sent'
       })
       setIsOpen(false)
-      refetch()
+
     } catch (error) {
       console.log(error)
     }
@@ -80,7 +82,7 @@ const ManageClasses = () => {
             <img
               src={classItem.image}
               alt="Class Image"
-    
+
               className="h-[200px] rounded-md mb-4"
             />
             <h3 className="text-lg font-bold mb-2">{classItem.title}</h3>

@@ -34,26 +34,26 @@ const MyClasses = () => {
       <ModalContainer isOpen={isOpen}><AddForm user={{ ...classData, ...user }} onSubmit={onSubmit} >Update</AddForm></ModalContainer>
       <h2 className="text-2xl font-bold mb-4 text-white">My Classes</h2>
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+        <thead className="bg-black">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Class Name
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Status
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Total Enrolled Students
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Feedback
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-green-300 divide-y divide-gray-200">
           {data?.map((classItem) => (
             <tr key={classItem._id}>
               <td className="px-6 py-4 whitespace-nowrap">{classItem.title}</td>

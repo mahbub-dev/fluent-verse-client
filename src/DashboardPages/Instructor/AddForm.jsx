@@ -2,10 +2,6 @@
 /* eslint-disable react/prop-types */
 
 import { useForm } from 'react-hook-form';
-import useAxiosSecure from '../../Hooks/useAxiosSecure';
-import { useAuth } from '../../Hooks/useAuth';
-import Swal from 'sweetalert2';
-
 const AddForm = ({ user, children, onSubmit }) => {
     const {
         register,
@@ -13,7 +9,6 @@ const AddForm = ({ user, children, onSubmit }) => {
         reset,
         formState: { errors },
     } = useForm();
-    console.log(user?.availableSeats)
     return (
 
         <div className="max-w-[800px] w-full bg-white p-8 rounded shadow-lg bg-gradient-to-r from-gray-500 to-gray-700">
@@ -28,7 +23,6 @@ const AddForm = ({ user, children, onSubmit }) => {
                             {...register('title', { required: true, value: user?.title })}
                             type="text"
                             id="className"
-
                             className="w-full p-2 outline-none bg-gray-300 rounded"
                         />
                         {errors.className && <span className="text-gray-900">This field is required</span>}

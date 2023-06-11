@@ -1,17 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { useAuth } from '../../Hooks/useAuth';
 
 const PaymentHistory = () => {
-    const payments = [
-        { id: 1, amount: 50.0, date: '2023-06-01' },
-        { id: 2, amount: 75.0, date: '2023-05-28' },
-        { id: 3, amount: 30.0, date: '2023-05-25' },
-    ];
-    const { logOut, user } = useAuth()
+    const { logOut} = useAuth()
     const axiosSecure = useAxiosSecure(logOut)
-    const { isLoading, data, refetch } = useQuery({
+    const {  data, refetch } = useQuery({
         queryKey: ['paymenthistory'],
         queryFn: async () => {
             try {

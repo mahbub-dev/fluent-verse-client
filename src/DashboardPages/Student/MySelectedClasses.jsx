@@ -42,7 +42,6 @@ const MySelectedClasses = () => {
     if (isLoading) {
         return <p className='text-white'>Loading</p>
     }
-
     return (
         <section className='mb-8 overflow-auto '>
             <h3 className="text-2xl font-bold mb-4 text-white">My Selected Classes</h3>

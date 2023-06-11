@@ -31,7 +31,7 @@ const ManageUsers = () => {
     refetch()
   }, [refetch])
   return (
-    <div className='mb-20 '>
+    <div className='mb-20 overflow-auto lg:overflow-hidden'>
       <h2 className="text-2xl  font-bold mb-4 text-white">Manage Users</h2>
       <table className="min-w-full bg-green-300 rounded divide-y divide-gray-200">
         <thead className="bg-black">

@@ -1,5 +1,4 @@
 
-import { useForm } from 'react-hook-form';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { useAuth } from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
@@ -8,14 +7,7 @@ import AddForm from './AddForm';
 const AddAClass = () => {
     const { user, logOut } = useAuth();
     const axiosSecure = useAxiosSecure(logOut)
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
-
-    const onSubmit = async (data) => {
+    const onSubmit = async (data, reset) => {
         try {
             data.instructor_name = user.displayName
             data.instructor_email = user.email
@@ -34,7 +26,7 @@ const AddAClass = () => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
-            <AddForm user={user} onSubmit={onSubmit}>
+            <AddForm user={{ displayName: user?.displayName, email: user?.email }} onSubmit={onSubmit}>
                 Add
             </AddForm>
         </div>

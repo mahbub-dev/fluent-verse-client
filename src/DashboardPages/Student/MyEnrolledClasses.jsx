@@ -7,7 +7,7 @@ import ClassCard from '../../Components/ClassCard';
 const MyEnrolledClasses = () => {
     const { logOut } = useAuth()
     const axiosSecure = useAxiosSecure(logOut)
-    const { isLoading, refetch, data } = useQuery({
+    const {  refetch, data } = useQuery({
         queryKey: ['enrolled'],
         queryFn: async () => {
             try {
