@@ -57,7 +57,7 @@ const ClassesPage = () => {
                 {data?.map((classItem) => (
                     <ClassCard classItem={classItem} key={classItem._id} >
                         <button
-                            className={`transition-all rounded  ${!classItem.availableSeats || !classItem?.isSelected || !classItem?.isEnrolled ? 'bg-yellow-600' : 'bg-yellow-700'} text-gray-200 rounded py-2 px-4`}
+                            className={`transition-all rounded  ${(!classItem.availableSeats ?'bg-yellow-600': (classItem?.isSelected || classItem?.isEnrolled)) ? 'bg-yellow-600' : 'bg-yellow-500'} text-gray-200 rounded py-2 px-4`}
                             disabled={!user?.role === 'student' || !classItem.availableSeats || classItem?.isSelected || classItem?.isEnrolled}
                             onClick={() => handleClassSelection(classItem._id)}
                         >

@@ -60,7 +60,7 @@ const CheckOut = ({ clientSecret, handlePaymentDetails, user }) => {
             Swal.fire({
                 icon: 'success',
                 title: 'Payment Success',
-                text: 'Transaction id : ' + transactionId
+                text: 'Transaction id : ' + paymentIntent.id
             })
             setTransactionId(paymentIntent.id)
             handlePaymentDetails(paymentIntent.id)
