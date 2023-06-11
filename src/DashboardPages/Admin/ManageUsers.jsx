@@ -1,77 +1,85 @@
-import { useState } from "react";
-import { RiUserAddLine, RiUserFollowLine } from "react-icons/ri";
-// import { updateProfileRole } from "../../api/userAPI";
+import React, { useState } from 'react';
+
+import { FaUserGraduate, FaChalkboardTeacher, FaUserShield } from 'react-icons/fa';
 
 const ManageUsers = () => {
+  const [users, setUsers] = useState([
+    { id: 1, name: 'John Doe', role: 'Student' },
+    { id: 2, name: 'Jane Smith', role: 'Student' },
+    { id: 3, name: 'Mark Johnson', role: 'Student' },
+    // Add more users as needed
+  ]);
 
-  const [disabledButtons, setDisabledButtons] = useState([]);
-  const users = []
-
-  const makeInstructor = (user) => {
- 
-    // updateProfileRole(user.uid, "instructor")
-    //   .then(() => {
-
-    //     setDisabledButtons([...disabledButtons, user.uid]);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+  const makeInstructor = (id) => {
+    const updatedUsers = users.map((user) => {
+      if (user.id === id) {
+        return { ...user, role: 'Instructor' };
+      }
+      return user;
+    });
+    setUsers(updatedUsers);
   };
 
-
-
-  const makeAdmin = (user) => {
-
-    // updateProfileRole(user.uid, "admin")
-    //   .then(() => {
-    //     setDisabledButtons([...disabledButtons, user.uid]);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+  const makeAdmin = (id) => {
+    const updatedUsers = users.map((user) => {
+      if (user.id === id) {
+        return { ...user, role: 'Admin' };
+      }
+      return user;
+    });
+    setUsers(updatedUsers);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="max-w-[800px] w-full bg-white p-8 rounded shadow-lg bg-gradient-to-r from-gray-500 to-gray-700">
-        <h2 className="text-2xl font-bold text-center text-white mb-4">
-          Manage Users
-        </h2>
-        {users.map((user) => (
-          <div
-            key={user.uid}
-            className="flex items-center justify-between py-2 border-b border-gray-300"
-          >
-            <div>
-              <p className="text-lg font-medium">{user.displayName}</p>
-              <p className="text-sm text-gray-500">{user.email}</p>
-            </div>
-            <div>
-              {user.role === "student" && (
-                <>
-                  <button
-                    onClick={() => makeInstructor(user)}
-                    disabled={disabledButtons.includes(user.uid)}
-                    className="mr-2 text-blue-500 hover:text-blue-700"
-                  >
-                    <RiUserAddLine className="inline-block mr-1" />
-                    Make Instructor
-                  </button>
-                  <button
-                    onClick={() => makeAdmin(user)}
-                    disabled={disabledButtons.includes(user.uid)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <RiUserFollowLine className="inline-block mr-1" />
-                    Make Admin
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+    <div>
+      <h2 className="text-2xl font-bold mb-4 text-white">Manage Users</h2>
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Name
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Role
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="flex">
+                  {user.role === 'Student' && (
+                    <button
+                      onClick={() => makeInstructor(user.id)}
+                      disabled={user.role !== 'Student'}
+                      className="px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600"
+                    >
+                      <FaChalkboardTeacher className="mr-2" />
+                      Make Instructor
+                    </button>
+                  )}
+                  {user.role !== 'Admin' && (
+                    <button
+                      onClick={() => makeAdmin(user.id)}
+                      disabled={user.role === 'Admin'}
+                      className="px-4 py-2 font-semibold text-white bg-red-500 rounded ml-2 hover:bg-red-600"
+                    >
+                      <FaUserShield className="mr-2" />
+                      Make Admin
+                    </button>
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

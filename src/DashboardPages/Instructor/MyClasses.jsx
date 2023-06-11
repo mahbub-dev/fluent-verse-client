@@ -2,13 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
-import AddAClass from "./AddAClass";
 import ModalContainer from "../../Components/ModalContainer";
 import AddForm from "./AddForm";
 const MyClasses = () => {
-  const { logOut, user } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
   const [classData, SetClassData] = useState(false)
+  const { logOut, user } = useAuth()
   const axiosSecure = useAxiosSecure(logOut)
   const { data, refetch } = useQuery({
     queryKey: ['my-class-page'],
@@ -21,6 +20,7 @@ const MyClasses = () => {
       }
     }
   })
+
   const onSubmit = () => {
 
   }
@@ -32,7 +32,7 @@ const MyClasses = () => {
   return (
     <div>
       <ModalContainer isOpen={isOpen}><AddForm user={{ ...classData, ...user }} onSubmit={onSubmit} >Update</AddForm></ModalContainer>
-      <h2 className="text-2xl font-bold mb-4">My Classes</h2>
+      <h2 className="text-2xl font-bold mb-4 text-white">My Classes</h2>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
