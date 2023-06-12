@@ -9,9 +9,8 @@ const ModalContainer = ({ isOpen, closeModal, children }) => {
     return null;
   }
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
-      <div className="fixed  bg-black bg-opacity-50"></div>
-      <div className="">{children}</div>
+    <div className=" absolute flex bg-black bg-opacity-50  items-center justify-center">
+      {children}
     </div>
   );
 };

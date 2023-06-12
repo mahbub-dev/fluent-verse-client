@@ -2,9 +2,10 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Loader from '../Components/Loader';
 
 const InstructorPage = () => {
-  const { data } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ['instructorPage'],
     queryFn: async () => {
       try {
@@ -15,6 +16,11 @@ const InstructorPage = () => {
       }
     }
   })
+  if (isLoading) {
+    return <div className='flex items-center justify-center h-screen'>
+      <Loader />
+    </div>
+  }
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -12,6 +12,7 @@ const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
     const auth = getAuth(app)
     const [user, setUser] = useState('')
+    const [initialToken, setInitialToken] = useState(null)
     const isUserLoggedIn = localStorage.getItem('uid')
     const provider = new GoogleAuthProvider();
     const logOut = useCallback(() => {
@@ -51,6 +52,7 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem('uid', user?.uid)
         localStorage.setItem('access-token', user.access_token)
         navigate(`${path.state?.from?.pathname}` || '/')
+        setInitialToken(user.access_token)
     }
 
     const handleGoogleLogin = async (location) => {
@@ -75,7 +77,8 @@ const AuthProvider = ({ children }) => {
         isUserLoggedIn,
         logOut,
         userLogin,
-        handleGoogleLogin
+        handleGoogleLogin,
+        initialToken
     }
     return (
         <AuthContext.Provider value={value}>

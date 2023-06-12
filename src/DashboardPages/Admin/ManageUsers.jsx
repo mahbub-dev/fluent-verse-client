@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { useEffect } from 'react';
 import { useAuth } from '../../Hooks/useAuth';
+import Loader from '../../Components/Loader';
 
 const ManageUsers = () => {
   const { logOut } = useAuth()
   const axiosSecure = useAxiosSecure(logOut)
-  const { data, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['manag-users-page'],
     queryFn: async () => {
       try {
@@ -30,6 +31,12 @@ const ManageUsers = () => {
   useEffect(() => {
     refetch()
   }, [refetch])
+
+  if (isLoading) {
+    return <div className='flex items-center justify-center h-screen'>
+      <Loader />
+    </div>
+  }
   return (
     <div className='mb-20 overflow-auto lg:overflow-hidden'>
       <h2 className="text-2xl  font-bold mb-4 text-white">Manage Users</h2>

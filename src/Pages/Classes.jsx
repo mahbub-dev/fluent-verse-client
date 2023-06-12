@@ -5,11 +5,12 @@ import { useEffect } from 'react';
 import { useAuth } from '../Hooks/useAuth';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
 import ClassAddRemoveBtn from '../Components/ClassAddRemoveBtn';
+import Loader from '../Components/Loader';
 
 const ClassesPage = () => {
-    const { logOut } = useAuth()
-    const axiosSecure = useAxiosSecure(logOut)
-    const { data, refetch } = useQuery({
+    const { logOut, user } = useAuth()
+    const axiosSecure = useAxiosSecure(logOut,)
+    const { isLoading, data, refetch } = useQuery({
         queryKey: ['classPage'],
         queryFn: async () => {
             try {
@@ -28,6 +29,12 @@ const ClassesPage = () => {
     useEffect(() => {
         refetch()
     }, [refetch])
+
+    if (isLoading) {
+        return <div className='flex items-center justify-center h-screen'>
+            <Loader />
+        </div>
+    }
     return (
         <div className="container mx-auto px-4 py-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

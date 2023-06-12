@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { Link, Navigate, useLocation } from "react-router-dom";
@@ -11,6 +11,7 @@ import axios from "axios";
 const Login = () => {
     const location = useLocation()
     const auth = getAuth(app)
+    const [loading, setLoading] = useState(false)
     const { user, userLogin, handleGoogleLogin } = useAuth()
     const {
         register,
@@ -20,13 +21,18 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         try {
+            setLoading(true)
             const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password)
             const user = userCredential.user;
             signInWithEmailAndPassword(auth, data.email, data.password)
             const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user?google=true`, { name: user.displayName, email: user.email, image: user.photoURL })
             user.access_token = res?.data?.access_token
+            user.role = res?.data?.role
+            user.name = res?.data?.name
+            setLoading(false)
             userLogin(user, location)
         } catch (error) {
+            setLoading(false)
             const errorMessage = error.message;
             Swal.fire({
                 icon: 'error',
@@ -91,7 +97,7 @@ const Login = () => {
                         type="submit"
                         className="w-full py-2 px-4 bg-gray-800 text-white rounded hover:bg-gray-900"
                     >
-                        Login
+                        {loading ? "Processing" : "Login"}
                     </button>
                 </form>
                 <p className="mt-4 text-white">

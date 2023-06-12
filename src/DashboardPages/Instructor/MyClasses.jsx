@@ -4,12 +4,13 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
 import ModalContainer from "../../Components/ModalContainer";
 import AddForm from "./AddForm";
+import Loader from "../../Components/Loader";
 const MyClasses = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [classData, SetClassData] = useState(false)
   const { logOut, user } = useAuth()
   const axiosSecure = useAxiosSecure(logOut)
-  const { data, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['my-class-page'],
     queryFn: async () => {
       try {
@@ -28,7 +29,11 @@ const MyClasses = () => {
   useEffect(() => {
     refetch()
   }, [refetch])
-
+  if (isLoading) {
+    return <div className='flex items-center justify-center h-screen'>
+      <Loader />
+    </div>
+  }
   return (
     <div>
       <ModalContainer isOpen={isOpen}><AddForm user={{ ...classData, ...user }} onSubmit={onSubmit} >Update</AddForm></ModalContainer>

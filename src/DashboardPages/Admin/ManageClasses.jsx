@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { RxCross2 } from 'react-icons/rx'
 import ModalContainer from '../../Components/ModalContainer';
 import Swal from 'sweetalert2';
+import Loader from '../../Components/Loader';
 
 const ManageClasses = () => {
   const { logOut } = useAuth()
@@ -12,7 +13,7 @@ const ManageClasses = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [text, setText] = useState('')
   const [classId, setClassId] = useState('')
-  const { data, refetch } = useQuery({
+  const { data, isLoading,refetch } = useQuery({
     queryKey: ['manage-class-page'],
     queryFn: async () => {
       try {
@@ -51,9 +52,16 @@ const ManageClasses = () => {
       console.log(error)
     }
   };
+  
   useEffect(() => {
     refetch
   }, [refetch])
+
+  if (isLoading) {
+    return <div className='flex items-center justify-center h-screen'>
+        <Loader />
+    </div>
+}
   return (
     <div className="container mb-20 rounded mx-auto">
       <ModalContainer isOpen={isOpen}>

@@ -5,6 +5,7 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { useAuth } from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import ClassCard from '../../Components/ClassCard';
+import Loader from '../../Components/Loader';
 
 const MySelectedClasses = () => {
     const navigate = useNavigate()
@@ -40,7 +41,9 @@ const MySelectedClasses = () => {
 
     };
     if (isLoading) {
-        return <p className='text-white'>Loading</p>
+        return <div className='flex items-center justify-center h-screen'>
+            <Loader />
+        </div>
     }
     return (
         <section className='mb-8 overflow-auto '>

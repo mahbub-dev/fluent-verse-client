@@ -1,32 +1,11 @@
-import ManageClasses from "./Admin/ManageClasses"
-import ManageUsers from "./Admin/ManageUsers"
-import MyClasses from "./Instructor/MyClasses"
-import AddAClass from "./Instructor/AddAClass"
-import MyEnrolledClasses from "./Student/MyEnrolledClasses"
-import MySelectedClasses from "./Student/MySelectedClasses"
 import { useAuth } from "../Hooks/useAuth"
 const DashboardHome = () => {
     const { user } = useAuth()
     return (
-        <>{
-            user?.role === 'student' && <>
-                <MySelectedClasses />
-                <MyEnrolledClasses />
-            </>
-        }
-            {
-                user?.role === 'instructor' && <>
-                    <MyClasses />
-                    {/* <AddAClass /> */}
-                </>
-            }
-            {
-                user?.role === 'admin' && <>
-                    <ManageClasses />
-                    <ManageUsers />
-                </>
-            }
-        </>
+        <div className='flex items-center justify-center h-screen flex-col'>
+            <h2 className="text-white font-bold text-2xl block">Hey, {user?.name}</h2>
+            <p className="text-gray-200 text-lg">Welcome to {user?.role} dashboard</p>
+        </div>
     )
 }
 

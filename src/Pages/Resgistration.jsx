@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import Swal from 'sweetalert2'
@@ -7,9 +7,9 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile, } from "firebas
 import app from "../../firebase.config";
 import { useAuth } from "../Hooks/useAuth";
 import axios from "axios";
-// import axios from "axios";
 const Registration = () => {
     const location = useLocation()
+    const [loading, setLoading] = useState(false)
     const { user, userLogin, handleGoogleLogin } = useAuth()
     const {
         register,
@@ -33,30 +33,30 @@ const Registration = () => {
             return "The password is less than 6 characters"
         }
     }
-    const onSubmit = (data) => {
-        createUserWithEmailAndPassword(auth, data.email, data.password)
-            .then(async (userCredential) => {
-                try {
-                    const user = userCredential.user;
-                    await updateProfile(user, {
-                        displayName: data.name, photoURL: data.photoURL
-                    })
-                    const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user`, data)
-                    user.access_token = res?.access_token
-                    userLogin(user, location)
-                } catch (error) {
-                    console.log(error)
-                }
-
+    const onSubmit = async (data) => {
+        try {
+            setLoading(true)
+            const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password)
+            const user = userCredential.user;
+            await updateProfile(user, {
+                displayName: data.name, photoURL: data.photoURL
             })
-            .catch((error) => {
-                const errorMessage = error.message;
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Firebase Error',
-                    text: errorMessage,
-                })
-            });
+            const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_URL}/user`, data)
+            user.access_token = res?.data?.access_token
+            user.role = res?.data?.role
+            user.name = res?.data?.name
+            userLogin(user, location)
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            const errorMessage = error.message;
+            Swal.fire({
+                icon: 'error',
+                title: 'Firebase Error',
+                text: errorMessage,
+            })
+        }
+
     };
 
 
@@ -215,9 +215,10 @@ const Registration = () => {
                     </div>
                     <button
                         type="submit"
+                        disabled={loading}
                         className="w-full py-2 px-4 bg-gray-800 text-white rounded hover:bg-gray-900"
                     >
-                        Register
+                        {loading ? 'Processing' : 'Register'}
                     </button>
                 </form>
                 <p className="mt-4 text-white">

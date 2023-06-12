@@ -4,6 +4,7 @@ import './App.css'
 import 'sweetalert2/src/sweetalert2.scss'
 import Footer from './Shared/Footer'
 import Navbar from './Shared/Navbar'
+import './Hooks/useAxiosSecure'
 function App() {
 
   return (

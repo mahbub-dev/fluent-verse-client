@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { useAuth } from '../../Hooks/useAuth';
+import Loader from '../../Components/Loader';
 
 const PaymentHistory = () => {
-    const { logOut} = useAuth()
+    const { logOut } = useAuth()
     const axiosSecure = useAxiosSecure(logOut)
-    const {  data, refetch } = useQuery({
+    const { isLoading, data, refetch } = useQuery({
         queryKey: ['paymenthistory'],
         queryFn: async () => {
             try {
@@ -20,8 +21,14 @@ const PaymentHistory = () => {
     useEffect(() => {
         refetch()
     }, [refetch])
+
+    if (isLoading) {
+        return <div className='flex items-center justify-center h-screen'>
+            <Loader />
+        </div>
+    }
     return (
-        <div className="container mx-auto px-4 py-8 bg-gradient-to-r from-blue-500 to-blue-700">
+        <div className="container mx-auto ">
             <h1 className="text-2xl font-bold mb-4 text-white">Payment History</h1>
             {data?.length > 0 ? (
                 <div className="overflow-x-auto">
@@ -38,7 +45,7 @@ const PaymentHistory = () => {
                             {data?.map((payment) => (
                                 <tr key={payment._id}>
                                     <td className="py-2 px-4 border-b">{payment.transactionId}</td>
-                                    <td className="py-2 px-4 border-b">{payment.itemNames?.map((i,ind)=><span key={ind}>{i} </span>)}</td>
+                                    <td className="py-2 px-4 border-b">{payment.itemNames?.map((i, ind) => <span key={ind}>{i} </span>)}</td>
                                     <td className="py-2 px-4 border-b text-right">${payment?.price?.toFixed(2)}</td>
                                     <td className="py-2 px-4 border-b text-right">{payment.date}</td>
                                 </tr>
@@ -47,7 +54,7 @@ const PaymentHistory = () => {
                     </table>
                 </div>
             ) : (
-                <p>No payment history found.</p>
+                <p className='text-gray-200'>No payment history found.</p>
             )}
         </div>
     );
