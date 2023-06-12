@@ -24,7 +24,6 @@ const AuthProvider = ({ children }) => {
     }, [navigate, auth])
     const axiosSecure = useAxiosSecure(logOut)
     useEffect(() => {
-        setTheme(localStorage.getItem('theme'))
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             try {
                 if (user) {
