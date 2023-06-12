@@ -133,7 +133,8 @@ const Navbar = () => {
             </>
             }
 
-            <button onClick={() => { }} className={` text-white hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}>
+            <button onClick={() => { theme === 'dark' ? setTheme('light') : setTheme('dark') }}
+              className={` ${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'}  shadow  hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}>
               {theme === 'dark' ? "Light Mode" : 'Dark Mode'}
             </button>
 
