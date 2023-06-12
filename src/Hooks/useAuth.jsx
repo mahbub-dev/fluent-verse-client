@@ -14,6 +14,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
     const [initialToken, setInitialToken] = useState(null)
     const isUserLoggedIn = localStorage.getItem('uid')
+    const [theme, setTheme] = useState('dark')
     const provider = new GoogleAuthProvider();
     const logOut = useCallback(() => {
         signOut(auth)
@@ -23,6 +24,7 @@ const AuthProvider = ({ children }) => {
     }, [navigate, auth])
     const axiosSecure = useAxiosSecure(logOut)
     useEffect(() => {
+        setTheme(localStorage.getItem('theme'))
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             try {
                 if (user) {
@@ -78,7 +80,8 @@ const AuthProvider = ({ children }) => {
         logOut,
         userLogin,
         handleGoogleLogin,
-        initialToken
+        initialToken,
+        theme, setTheme
     }
     return (
         <AuthContext.Provider value={value}>

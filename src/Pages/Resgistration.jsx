@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import Swal from 'sweetalert2'
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, } from "firebase/auth";
 import app from "../../firebase.config";
 import { useAuth } from "../Hooks/useAuth";

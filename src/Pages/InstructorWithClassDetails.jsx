@@ -3,10 +3,8 @@ import axios from 'axios';
 import ClassCard from '../Components/ClassCard';
 import { FaUserCircle, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../Hooks/useAuth';
 import ClassAddRemoveBtn from '../Components/ClassAddRemoveBtn';
 const InstructorWithClassDetails = () => {
-    const { user } = useAuth()
     const params = useParams()
     const { data, refetch } = useQuery({
         queryKey: ['instructorWithClassDetails'],
