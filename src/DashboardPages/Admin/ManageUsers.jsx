@@ -33,9 +33,8 @@ const ManageUsers = () => {
   }, [refetch])
 
   if (isLoading) {
-    return <div className='flex items-center justify-center h-screen'>
-      <Loader />
-    </div>
+    return <Loader />
+  
   }
   return (
     <div className='mb-20 overflow-auto lg:overflow-hidden'>

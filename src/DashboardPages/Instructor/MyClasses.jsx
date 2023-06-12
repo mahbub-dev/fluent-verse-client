@@ -30,9 +30,8 @@ const MyClasses = () => {
     refetch()
   }, [refetch])
   if (isLoading) {
-    return <div className='flex items-center justify-center h-screen'>
-      <Loader />
-    </div>
+    return <Loader />
+
   }
   return (
     <div>

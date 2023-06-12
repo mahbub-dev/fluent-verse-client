@@ -23,9 +23,8 @@ const PaymentHistory = () => {
     }, [refetch])
 
     if (isLoading) {
-        return <div className='flex items-center justify-center h-screen'>
-            <Loader />
-        </div>
+        return <Loader />
+       
     }
     return (
         <div className="container mx-auto ">
