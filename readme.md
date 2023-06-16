@@ -31,3 +31,6 @@ FluentVerse is built using the following technologies and packages:
 ## Live Site
 
 Visit the live site at [www.fluentverse.web.app](https://fluentverse.web.app/) to start your language learning journey today!
+
+## Server Repo
+[https://github.com/mahbub-dev/fluent-verse-server](Server repo) 
