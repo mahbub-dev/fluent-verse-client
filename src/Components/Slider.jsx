@@ -3,7 +3,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 const sliderInfo = [
     {
-        image: "https://c8.alamy.com/comp/2FNNT4H/people-learn-foreign-languages-online-on-laptop-female-character-studying-profiles-of-teachers-concept-of-online-education-and-languages-courses-ba-2FNNT4H.jpg",
+        image: "https://previews.123rf.com/images/artinspiring/artinspiring2006/artinspiring200602084/150457107-language-learning-web-banner-or-landing-page-study-foreign.jpg",
         title: 'Learn a New Language',
         desc: 'Expand your horizons by learning a new language. Enhance your career prospects and connect with people from different cultures.'
     },

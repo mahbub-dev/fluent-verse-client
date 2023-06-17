@@ -3,7 +3,6 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from "../Hooks/useAuth";
 import Loading from "./Loading";
-import useTheme from "../Hooks/userTheme";
 const Navbar = () => {
   // const [theme, setTheme] = useTheme()
   const path = useLocation().pathname.split('/')[1]
@@ -57,12 +56,6 @@ const Navbar = () => {
                 </button>
               </>
               }
-
-
-              <button onClick={() => { theme === 'dark' ? setTheme('light') : setTheme('dark') }}
-                className={` ${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'}  shadow  hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}>
-                {theme === 'dark' ? "Light Mode" : 'Dark Mode'}
-              </button>
 
             </div>
           </div>
@@ -132,12 +125,6 @@ const Navbar = () => {
               </button>
             </>
             }
-
-            <button onClick={() => { theme === 'dark' ? setTheme('light') : setTheme('dark') }}
-              className={` ${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'}  shadow  hover:text-gray-500 block px-3 py-2 rounded-md text-base font-medium`}>
-              {theme === 'dark' ? "Light Mode" : 'Dark Mode'}
-            </button>
-
 
           </div>
           <div className="pt-4 pb-3 border-t border-white">
